@@ -14,10 +14,11 @@ from geopy.exc import GeocoderTimedOut
 from time import sleep
 import datetime
 import sys
+import signal
 
 
-DATASET_LOCATION = "chimps_16154-2010-10-20_14-33-35/test_ufo_awesome.csv"
-OUTPUT_FILE_NAME = "ufo_address_processed.csv"
+DATASET_LOCATION = "chimps_16154-2010-10-20_14-33-35/ufo_awesome.csv"
+OUTPUT_FILE_NAME = "py_output_csv.csv"
 LOCATION_CACHE = "location_cache.txt"
 
 
@@ -25,8 +26,11 @@ def writeToCache(location_data):
     with open(LOCATION_CACHE, 'w') as file:
         file.write(json.dumps(location_data))
 
+
 # given location name fetch the coordinates for plotting
 def getLatLong(location_name, processed_addr):
+    global count
+    count += 1
     if isinstance(location_name, str):
         geolocator = Nominatim()
         if location_name in processed_addr:
@@ -34,7 +38,7 @@ def getLatLong(location_name, processed_addr):
         else:
             try:
                 # Need a time out of 1 second between requests
-                sleep(3)
+                sleep(1)
                 location = geolocator.geocode(location_name, addressdetails=True)
                 if location:
                     loc_json = location.raw
@@ -50,12 +54,17 @@ def getLatLong(location_name, processed_addr):
                     except:
                         print "key error ",loc_json
                     processed_addr[location_name] = [lat, lon, city, state, country]
+                    with open('local_cache.txt', 'a+') as file:
+                        file.write("{0}:{1}\n".format("{"+location_name,json.dumps(processed_addr[location_name]) + "}"))
                     return [lat, lon, city, state, country]
                 else:
                     ""
             except GeocoderTimedOut:
                 writeToCache(processed_addr)
-                sys.exit()
+                sys.exit
+            except:
+                writeToCache(processed_addr)
+                sys.exit
     else:
         return ""
 
@@ -70,15 +79,15 @@ try:
 except:
     processed_addr = {}
 
-processed_addr = pd.read_csv(LOCATION_CACHE)
-
 latitude = []
 longitude = []
 state = []
 city = []
 country = []
+count = 0
 
 for x in data['location']:
+    print "Count is ", count
     location_details = getLatLong(x, processed_addr)
     print location_details
     # lat, lon, city, state, country
@@ -95,6 +104,7 @@ for x in data['location']:
         city.append("NA")
         country.append("NA")
 
+writeToCache(processed_addr)
 
 df['latitude'] = latitude
 df['longitude'] = longitude
@@ -102,6 +112,6 @@ df['city'] = city
 df['state'] = state
 df['country'] = country
 
-writeToCache(processed_addr)
+
 
 df.to_csv(OUTPUT_FILE_NAME, index=False)
