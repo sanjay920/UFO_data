@@ -5,4 +5,6 @@ Order of execution:
 
 2) Follow /geocoded_location to get reference_w_loc.csv
 
-3) 
+3) Follow /airport_dataset to produce reference_w_airports.csv
+
+4)  
