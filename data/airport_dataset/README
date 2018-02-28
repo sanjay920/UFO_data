@@ -1,0 +1,7 @@
+Used this link to retrieve airports: https://datahub.io/core/airport-codes
+This is the same as the airports GitHub provided in assignment description.
+
+There are many different types of airports, but the ones of interest to us are large, medium, and small airports. 
+
+The notebook file 'Add airport features.ipynb' will add the closest (large/medium/small) airport's name and distance to each row. The reference with the new features will be written to reference_w_airports.csv
+
