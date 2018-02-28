@@ -1,0 +1,52 @@
+urban_area,country,pop_rank,population,major_4_cnt,major_6_cnt,NFL,MLB,NBA,NHL,MLS,CFL,ua_lat,ua_lon
+New York City,United States,1,"20,685,000",9,11,Giants Jets[note 1],Yankees Mets[note 2],Knicks Nets,Rangers Islanders Devils[note 3],Red Bulls New York City FC,„,40.7306458,-73.9866136
+Los Angeles,United States,2,"15,135,000",8,10,Rams Chargers[note 4],Dodgers Angels,Lakers Clippers,Kings Ducks,Galaxy Los Angeles FC[note 5],„,34.054935,-118.244476
+San Francisco Bay Area,United States,7,"5,955,000",6,7,49ers Raiders[note 6],Giants Athletics,Warriors,Sharks[note 7],Earthquakes,„,37.7884969,-122.3558473
+Chicago,United States,3,"9,185,000",5,6,Bears[note 8],Cubs White Sox,Bulls[note 9],Blackhawks,Fire,„,41.8755546,-87.6244212
+Dallas Fort Worth,United States,5,"6,280,000",4,5,Cowboys,Rangers,Mavericks,Stars,FC Dallas,„,32.7379037,-97.2394281
+Philadelphia,United States,9,"5,595,000",4,5,Eagles,Phillies[note 10],76ers,Flyers[note 11],Union,„,39.9523993,-75.1635899
+"Washington, D.C.",United States,11,"4,950,000",4,5,Redskins,Nationals[note 12],Wizards[note 13],Capitals,D.C. United,„,36.29885175,-82.3591933141
+Boston,United States,12,"4,490,000",4,5,Patriots[note 14],Red Sox[note 15],Celtics,Bruins,Revolution,„,42.3604823,-71.0595678
+Minneapolis Saint Paul,United States,18,"2,795,000",4,5,Vikings,Twins,Timberwolves,Wild[note 16],United FC,„,44.94758455,-93.1027671269
+Denver,United States,20,"2,600,000",4,5,Broncos,Rockies,Nuggets[note 17],Avalanche[note 18],Rapids,„,39.7391536,-104.9847034
+Miami,United States,8,"5,820,000",4,4,Dolphins,Marlins,Heat,Panthers,[note 19],„,25.7742658,-80.1936589
+Phoenix,United States,13,"4,295,000",4,4,Cardinals,Diamondbacks,Suns,Coyotes,„,„,33.4485866,-112.0773456
+Detroit,United States,14,"3,660,000",4,4,Lions,Tigers[note 20],Pistons[note 21],Red Wings,„,„,42.3486635,-83.0567375
+Toronto,Canada,4,"6,550,000",3,5,[note 22],Blue Jays,Raptors[note 23],Maple Leafs[note 24],Toronto FC,Argonauts,43.653963,-79.387207
+Houston,United States,6,"6,005,000",3,4,Texans[note 25],Astros,Rockets,„,Dynamo,„,29.7589382,-95.3676974
+Atlanta,United States,10,"5,120,000",3,4,Falcons,Braves,Hawks,[note 26],United FC,„,33.7490987,-84.3901849
+Tampa Bay,United States,19,"2,660,000",3,3,Buccaneers,Rays,„,Lightning,[note 27],„,27.6886419,-82.5723193
+Cleveland,United States,29,"1,785,000",3,3,Browns[note 28],Indians[note 29],Cavaliers[note 30],[note 31],„,„,41.5051613,-81.6934446
+Pittsburgh,United States,30,"1,730,000",3,3,Steelers,Pirates,[note 32],Penguins[note 33],„,„,40.4416941,-79.9900861
+Seattle,United States,16,"3,475,000",2,3,Seahawks,Mariners,[note 34],„,Sounders FC,„,47.6038321,-122.3300624
+Kansas City,United States,34,"1,610,000",2,3,Chiefs,Royals[note 35],[note 36],[note 37],Sporting Kansas City,„,39.0844687,-94.5630298
+Baltimore,United States,22,"2,275,000",2,2,Ravens[note 38],Orioles[note 39],[note 40],„,„,[note 41],39.2908816,-76.610759
+St. Louis,United States,24,"2,195,000",2,2,[note 42],Cardinals[note 43],[note 44],Blues[note 45],„,„,38.6337716,-90.2416548
+Cincinnati,United States,31,"1,695,000",2,2,Bengals,Reds[note 46],[note 47],„,„,„,39.1014537,-84.5124602
+Indianapolis,United States,33,"1,645,000",2,2,Colts,[note 48],Pacers[note 49],„,„,„,39.7683331,-86.1583502
+Milwaukee,United States,38,"1,415,000",2,2,[note 50],Brewers[note 51],Bucks,„,„,„,43.0349931,-87.922497
+Charlotte,United States,35,"1,600,000",2,2,Panthers,„,Hornets[note 52],„,„,„,35.2270869,-80.8431268
+Nashville,United States,44,"1,105,000",2,2,Titans,„,„,Predators,[note 53],„,36.1622296,-86.7743531
+Buffalo,United States,53,"920,000",2,2,Bills[note 54],[note 55],[note 56],Sabres,„,„,42.8867166,-78.8783922
+New Orleans,United States,52,"925,000",2,2,Saints,„,Pelicans[note 57],„,„,„,30.03280175,-89.9750054503
+Montreal,Canada,15,"3,570,000",1,3,„,[note 58],„,Canadiens,Impact,Alouettes,45.4972159,-73.6103642
+Vancouver,Canada,21,"2,310,000",1,3,„,„,[note 59],Canucks,Whitecaps FC,Lions,49.2608724,-123.1139529
+Orlando,United States,25,"2,125,000",1,2,„,„,Magic,„,Orlando City SC,„,28.5423999,-81.3794368
+Portland,United States,27,"2,000,000",1,2,„,„,Trail Blazers,„,Timbers,„,45.5202471,-122.6741949
+Columbus,United States,36,"1,505,000",1,2,„,„,„,Blue Jackets,Crew SC,„,39.9622601,-83.0007065
+Calgary,Canada,39,"1,215,000",1,2,„,„,„,Flames,„,Stampeders,51.02532675,-114.049868486
+Salt Lake City,United States,45,"1,100,000",1,2,„,„,Jazz,„,Real Salt Lake,„,40.7670126,-111.8904308
+Edmonton,Canada,46,"1,060,000",1,2,„,„,„,Oilers,„,Eskimos,53.535411,-113.507996
+Ottawa,Canada,49,"1,010,000",1,2,„,„,„,Senators,„,Redblacks[note 60],45.421106,-75.690308
+Winnipeg,Canada,67,"705,000",1,2,„,„,„,Jets[note 61],„,Blue Bombers,49.884017,-97.168579
+San Diego,United States,17,"3,110,000",1,1,[note 62],Padres,[note 63],„,„,„,32.7174209,-117.1627714
+Las Vegas,United States,23,"2,255,000",1,1,[note 6],„,„,Golden Knights,„,[note 64],36.1662859,-115.149225
+San Antonio,United States,26,"2,025,000",1,1,[note 65],„,Spurs,„,„,[note 66],29.4246002,-98.4951405
+Sacramento,United States,28,"1,920,000",1,1,„,„,Kings,„,„,[note 67],38.5815719,-121.4943996
+Jacksonville,United States,41,"1,170,000",1,1,Jaguars,„,„,„,„,„,30.3321838,-81.655651
+Memphis,United States,43,"1,110,000",1,1,[note 68],„,Grizzlies,„,„,[note 69],35.1490215,-90.0516285
+Raleigh,United States,42,"1,130,000",1,1,„,„,„,Hurricanes,„,„,35.7803977,-78.6390989
+Oklahoma City,United States,51,"930,000",1,1,„,„,Thunder[note 70],„,„,„,35.4729886,-97.5170536
+"Hamilton, Ontario",Canada,„,"747,545",0,1,„,„,„,„,„,Tiger-Cats,43.255205,-79.868202
+Green Bay,United States,„,"205,000",1,1,Packers,„,„,„,„,„,44.5126379,-88.0125794
+Regina,Canada,„,"195,000",0,1,„,„,„,„,„,Roughriders,50.44876,-104.61731

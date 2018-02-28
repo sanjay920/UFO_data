@@ -1,0 +1,3 @@
+The dataset origin is https://en.wikipedia.org/wiki/List_of_American_and_Canadian_cities_by_number_of_major_professional_sports_franchises and is stored in 'major_sports_franchises.csv'
+
+To get GPS coordinates for each urban area in the original dataset, run the 'Get GPS coordinates for each metro.ipynb' notebook. The resulting file will be 'msf_w_coord.csv'
