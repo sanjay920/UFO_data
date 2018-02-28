@@ -1,0 +1,7 @@
+Use INSERT_FILE_NAME_HERE.py to create geocoded_location_dict.txt
+
+Add geocoded location features notebook file:
+This notebook uses geocoded_location_dict.txt to add geocoded latitude, longitude, city, state, and country as features to the reference dataset. Attempt to fix any UFO sightings that geopy could not resolve -- use uszipcode package as a second option to geopy. This allowed us to fix 877 entries.
+This notebook will produce reference_w_loc.csv 
+
+Packages required: uszipcode
