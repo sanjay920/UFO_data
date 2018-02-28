@@ -13,13 +13,11 @@ from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
 from time import sleep
 import datetime
-import sys
-import signal
 
 # change the location of your input files here.
-DATASET_LOCATION = "chimps_16154-2010-10-20_14-33-35/ufo_awesome.csv"
-OUTPUT_FILE_NAME = "py_output_csv.csv"
-LOCATION_CACHE = "location_cache.txt"
+DATASET_LOCATION = "../reference.csv"
+OUTPUT_FILE_NAME = "geo_location_appended.csv"
+LOCATION_CACHE = "geocoded_location_dict.txt"
 
 # utility function to write the results to local cache
 def writeToCache(location_data):
@@ -33,11 +31,12 @@ def getLatLong(location_name, processed_addr):
     count += 1
     if isinstance(location_name, str):
         geolocator = Nominatim()
+        # IF the location is already fetched, return it from the cache
         if location_name in processed_addr:
             return processed_addr[location_name]
-        else:
+        else:#IF the location is not fetched, then use geolocator to fetch the location
             try:
-                # Need a time out of 1 second between requests
+                # Need a time out of 1 second between requests to prevent geocode from
                 sleep(1)
                 location = geolocator.geocode(location_name, addressdetails=True)
                 if location:
@@ -101,7 +100,7 @@ def build_coordinates_dataset(data, processed_addr):
 
     print df.shape
 
-    df.to_csv("py_output_csv.csv", index=False, encoding='utf-8')
+    df.to_csv(OUTPUT_FILE_NAME, index=False, encoding='utf-8')
 
 
 
@@ -117,10 +116,10 @@ try:
 except:
     processed_addr = {}
 
-
+# Load the adresses fetched so far into the cache
 build_coordinates_dataset(data, processed_addr)
 
-# NOTE : The below commented code was used to initially build the cache
+# NOTE : The below commented code was used to initially build the cache and write the final datafram as a csv(With geo locations updated)
 # latitude = []
 # longitude = []
 # state = []
@@ -129,7 +128,7 @@ build_coordinates_dataset(data, processed_addr)
 # count = 0
 #
 # for x in data['location']:
-#     print "Count is ", count
+#     # print "Count is ", count
 #     location_details = getLatLong(x, processed_addr)
 #     print location_details
 #     # lat, lon, city, state, country
@@ -146,14 +145,14 @@ build_coordinates_dataset(data, processed_addr)
 #         city.append("NA")
 #         country.append("NA")
 #
+# # write all the processed addresses to the cache
 # writeToCache(processed_addr)
 #
+# # Append the additional columns inferred from geo code to the data frame
 # df['latitude'] = latitude
 # df['longitude'] = longitude
 # df['city'] = city
 # df['state'] = state
 # df['country'] = country
-#
-#
 #
 # df.to_csv(OUTPUT_FILE_NAME, index=False)
