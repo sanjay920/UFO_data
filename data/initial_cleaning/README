@@ -1,0 +1,13 @@
+The original ufo_awesome.json is equivalent to ufo_awesome.tsv.
+
+The tsv file had many issues (i.e. malformed strings that resulted in pandas not being able to read the file), so we fixed (replaced/removed characters) all the malformed strings (easier to fix in json than in tsv) and logged all the errors in malformed_data_log.txt.
+
+Using the cleaned json file, we perform the following:
+1) remove duplicates -- we found 16 duplicate rows
+2) assign unreported shapes as 'unkown'
+
+Now, we produce reference.csv, the primary dataset for the rest of the project.
+
+NOTE: We assigned each row an id once reference.csv was produced. Since we used panda's to_csv(), it automatically outputs an index to each row -- we gave that column a name of 'id' -- this was manually done using excel.
+
+All of the above can be seen in the notebook file: 'initial data cleaning.ipynb' in this directory ( /data/initial_cleaning ).
