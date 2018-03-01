@@ -1,0 +1,3 @@
+TODO: Add script to generate pop_final.csv
+
+Assumption made: if there is no sighted_at date then we use reported_at date
