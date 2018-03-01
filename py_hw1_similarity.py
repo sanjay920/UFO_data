@@ -8,6 +8,7 @@ import itertools
 from collections import defaultdict
 import numpy as np
 import math
+import editdistance
 
 # Vector class taken from tika-similarity and modified to fit our need
 # pass the ufo-sighting name as the key and a list of features as input(min_distance, closest airport and so on)
@@ -16,6 +17,16 @@ class Vector:
     def __init__(self, feat_name, features):
         self.features = features
         self.feat_name = feat_name
+
+    # Added this function to generate a string from the feature vector
+    def stringify(self,feature):
+        attribute_value = feature.values()
+        print attribute_value
+        attribute_value = [str(x) for x in attribute_value]
+        if isinstance(attribute_value, list):
+            return str((", ".join(attribute_value)).encode('utf-8').strip())
+        else:
+            return str(attribute_value.encode('utf-8').strip())
 
     def dotProduct(self, vector2):
         dot_product = 0.0
@@ -38,35 +49,25 @@ class Vector:
         '''
         return self.dotProduct(v2) / (self.getMagnitude() * v2.getMagnitude())
 
+    def editDistance(self, v2):
+        v1_feature_string = self.stringify(self.features)
+        v2_feature_string = self.stringify(v2.features)
+
+        return float(editdistance.eval(v1_feature_string, v2_feature_string))
+
 
 # Input / Output Files go here
-INPUT_DATA_FILE = "df_nearest_airports.csv"
-OUTPUT_CSV_FILE = "cosine_sim_airport.csv"
+INPUT_DATA_FILE = "../Additional_Data/Latest_Merged_Data_0228714pm.csv"
+OUTPUT_CSV_FILE = "../cosine_sim_airport.csv"
 
 
 
 # ######################## Sampling the input data and normalizing the columns. To be improved and investigated further
-data = pd.read_csv(INPUT_DATA_FILE, encoding='ISO-8859-1')
+data = pd.read_csv(INPUT_DATA_FILE)
 
-data = data.sample(15)
+data = data.sample(10)
 data_dictionary = defaultdict()
 
-max_medium_ad = max(data['closest_MEDIUM_airport_distance'].tolist())
-max_small_ad = max(data['closest_SMALL_airport_distance'].tolist())
-max_large_ad = max(data['closest_LARGE_airport_distance'].tolist())
-
-min_medium_ad = min(data['closest_MEDIUM_airport_distance'].tolist())
-min_small_ad = min(data['closest_SMALL_airport_distance'].tolist())
-min_large_ad = min(data['closest_LARGE_airport_distance'].tolist())
-
-
-data['closest_MEDIUM_airport_distance'] = abs(data['closest_MEDIUM_airport_distance'] - max_medium_ad )/(max_medium_ad-min_medium_ad)
-data['closest_SMALL_airport_distance'] = abs(data['closest_SMALL_airport_distance'] - max_small_ad)/(max_small_ad-min_small_ad)
-data['closest_LARGE_airport_distance'] = abs(data['closest_LARGE_airport_distance']-max_large_ad)/(max_large_ad-min_large_ad)
-
-data['closest_SMALL_airport_distance'] = [round(x,2) for x in data['closest_SMALL_airport_distance']]
-data['closest_MEDIUM_airport_distance'] = [round(x,2) for x in data['closest_MEDIUM_airport_distance']]
-data['closest_LARGE_airport_distance'] = [round(x,2) for x in data['closest_LARGE_airport_distance']]
 # ########################################################################################################
 
 # print data['closest_SMALL_airport_distance']
@@ -76,28 +77,42 @@ data['closest_LARGE_airport_distance'] = [round(x,2) for x in data['closest_LARG
 for index,row in data.iterrows():
     # print row
     feature = defaultdict()
-    feature['medium_distance'] = row['closest_MEDIUM_airport_distance']
-    feature['small_airport'] = row['closest_SMALL_airport_distance']
-    feature['large_airport'] = row['closest_LARGE_airport_distance']
+    feature['medium_airport'] = row['medium_airport_category']
+    feature['small_airport'] = row['small_airport_category']
+    feature['large_airport'] = row['large_airport_category']
+    feature['meteorite'] = row['metorite_category']
     data_dictionary[row['location']] = feature
 
 
-# create tuples for ufo sighting and compute their cosine similarity and write them to a file.
-with open(OUTPUT_CSV_FILE, "wb") as outF:
-    a = csv.writer(outF, delimiter=',')
-    a.writerow(["x-coordinate","y-coordinate","Similarity_score"])
+tuples = itertools.combinations(data_dictionary.keys(),2)
+for sighting_1, sighting_2 in tuples:
+    # try:
+    raw_edit_distance = [sighting_1, sighting_2]
+    v1 = Vector(sighting_1, data_dictionary[sighting_1])
+    v2 = Vector(sighting_2, data_dictionary[sighting_2])
+    print sighting_1, sighting_2 , " = ", v1.editDistance(v2)
+        # raw_edit_distance.append(round(v1.editDistance(v2),2))
+        # print raw_edit_distance
+    # except:
+    #     continue
 
-    tuples = itertools.combinations(data_dictionary.keys(),2)
-    #
-    for sighting_1, sighting_2 in tuples:
-        try:
-            row_cosine_distance = [sighting_1, sighting_2]
-            v1 = Vector(sighting_1, data_dictionary[sighting_1])
-            v2 = Vector(sighting_2, data_dictionary[sighting_2])
-            row_cosine_distance.append(round(v1.cosTheta(v2),2))
-            a.writerow(row_cosine_distance)
-        except:
-            continue
+
+# create tuples for ufo sighting and compute their cosine similarity and write them to a file.
+# with open(OUTPUT_CSV_FILE, "wb") as outF:
+#     a = csv.writer(outF, delimiter=',')
+#     a.writerow(["x-coordinate","y-coordinate","Similarity_score"])
+#
+#     tuples = itertools.combinations(data_dictionary.keys(),2)
+#     for sighting_1, sighting_2 in tuples:
+#         try:
+#             row_cosine_distance = [sighting_1, sighting_2]
+#             v1 = Vector(sighting_1, data_dictionary[sighting_1])
+#             v2 = Vector(sighting_2, data_dictionary[sighting_2])
+#             row_cosine_distance.append(round(v1.editDistance(v2),2))
+#             a.writerow(row_cosine_distance)
+#         except:
+#             continue
+
 
 
 # loc_tuple = [{"location":"Iowa City, IA", "dist":0.924687762}, {"location":"Milwaukee, WI", "dist":2.779821499}]
