@@ -2,7 +2,6 @@
 # Assumptions : As we just have the year and nothing more. Merging the ufo data and metorite data only on the year.
 # 1 - For each entry in the ufo data set, get the state and the sighted at year.
 # 2 - Filter the metorite data set by year first and then by state. There by limitiing the number of comparisions
-# 3 - We could change this approach and use Sanjay's approach(The one that was used to merge the airport dataset)
 # 4 - Compute the distance from the metorite landing and record the observations
 # 5 - Append all the findings to the data frame and save it as a dataframe
 
