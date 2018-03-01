@@ -1,0 +1,5 @@
+'Extract shape.ipynb' attempts to extract shape from description for UFO sightings that did not report a shape. It does so by looking for shape descriptions found in the shape column and looking for these in the description of the UFO sighting row. 
+
+Before there were 1613 rows without a UFO shape. We were able to extract 639 shapes from descriptions, leaving only 974 unknown shape entries.
+
+The notebook overwrites '../reference_w_loc.csv'.
