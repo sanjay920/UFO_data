@@ -11,4 +11,4 @@ Order of execution:
 
 5) Follow /data/sports_dataset to produce reference_w_sports.csv
 
-6) 
+6)
