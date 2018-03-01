@@ -6,15 +6,16 @@ from geopy.distance import vincenty
 from collections import defaultdict
 
 # Four categories defined, can add more
-SMALL = 0
-MEDIUM = 1
-LARGE = 2
-MISSING = -1
+MISSING = 0
+SMALL = 1
+MEDIUM = 2
+LARGE = 3
+
 NA = "Not Available"
 
 # Input file goes here
 DATA_SET_PATH = '../Additional_Data/meteor_data_appeneded.csv'
-OUTPUT_DATA_FRAME_NAME = '../Additional_Data/Latest_Merged_Data_714pm.csv'
+OUTPUT_DATA_FRAME_NAME = '../Additional_Data/Latest_Merged_Data_0228714pm.csv'
 
 # TODO: Need to add encoding when reading the data frame
 data = pd.read_csv(DATA_SET_PATH)
@@ -23,8 +24,8 @@ data = pd.read_csv(DATA_SET_PATH)
 # Tresholds for each feature added so far
 SMALL_AD_TRESHOLD = [[0,50], [50,100], [100]]
 MEDIUM_AD_TRESHOLD = [[0,50], [50,100], [100]]
-LARGE_AD_TRESHOLD = [[0,50], [50-100], [100]]
-METORITE_TRESHOLD = [[1,100], [100-300], [300]]
+LARGE_AD_TRESHOLD = [[0,50], [50,100], [100]]
+METORITE_TRESHOLD = [[1,100], [100,300], [300]]
 
 small_airport_dist_category = []
 medium_airport_dist_category = []
@@ -67,4 +68,4 @@ data['medium_airport_category'] = medium_airport_dist_category
 data['small_airport_category'] = small_airport_dist_category
 
 # TODO: Add encoding before exporting as csv
-data.to_csv(OUTPUT_DATA_FRAME_NAME)
+data.to_csv(OUTPUT_DATA_FRAME_NAME, index=False)
