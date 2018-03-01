@@ -60,6 +60,7 @@ class Vector:
 INPUT_DATA_FILE = "featurized_data_set.csv"
 EDIT_DIST_CSV_FILE = "edit_distance_similarity.csv"
 COSINE_SIMILARITY_CSV_FILE = "cosine_similarity.csv"
+JACCARD_SIMILARITY_CSV_FILE="jaccard_similarity.csv"
 
 
 
@@ -68,7 +69,7 @@ data = pd.read_csv(INPUT_DATA_FILE)
 
 data = data.loc[data['state'] == 'California']
 
-# data = data.sample(10)
+data = data.sample(10)
 data_dictionary = defaultdict()
 
 # ########################################################################################################
@@ -122,29 +123,30 @@ def compute_edit_distance(tuples):
                 continue
 
 
-# compute_edit_distance(tuples)
-compute_edit_distance(tuples)
-
-# create tuples for ufo sighting and compute their cosine similarity and write them to a file.
-# with open(OUTPUT_CSV_FILE, "wb") as outF:
-#     a = csv.writer(outF, delimiter=',')
-#     a.writerow(["x-coordinate","y-coordinate","Similarity_score"])
-#
-#     tuples = itertools.combinations(data_dictionary.keys(),2)
-#     for sighting_1, sighting_2 in tuples:
-#         try:
-#             row_cosine_distance = [sighting_1, sighting_2]
-#             v1 = Vector(sighting_1, data_dictionary[sighting_1])
-#             v2 = Vector(sighting_2, data_dictionary[sighting_2])
-#             row_cosine_distance.append(round(v1.editDistance(v2),2))
-#             a.writerow(row_cosine_distance)
-#         except:
-#             continue
+def jaccard(v1,v2):
+    isCoExistant = lambda k: (k in v2) and (v1[k] == v2[k])
+    intersection = reduce(lambda m, k: (m + 1) if isCoExistant(k) else m, v1.keys(), 0)
+    union = len(v1.keys()) + len(v2.keys()) - intersection
+    jaccard = float(intersection) / union
+    return jaccard
 
 
 
-# loc_tuple = [{"location":"Iowa City, IA", "dist":0.924687762}, {"location":"Milwaukee, WI", "dist":2.779821499}]
-# v1 = Vector(loc_tuple[0]['location'], {"dist":0.924687762, "dist2":10.006})
-# v2 = Vector(loc_tuple[1]['location'], {"dist":80.779821499, "dist2":1000000.998886})
-#
-# print v1.cosTheta(v2)
+def jaccard_similarity(tuples):
+    with open(JACCARD_SIMILARITY_CSV_FILE,"wb") as outF:
+        a = csv.writer(outF, delimiter=',')
+        a.writerow(["x-coordinate","y-coordinate","Similarity_score"])
+        # row = []
+        for sighting_1, sighting_2 in tuples:
+            try:
+                result = jaccard(data_dictionary[sighting_1], data_dictionary[sighting_2])
+                row = (sighting_1, sighting_2, result)
+                a.writerow(row)
+            except:
+                continue
+
+
+
+jaccard_similarity(tuples)
+
+
