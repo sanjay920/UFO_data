@@ -1,3 +1,13 @@
 The dataset origin is https://en.wikipedia.org/wiki/List_of_American_and_Canadian_cities_by_number_of_major_professional_sports_franchises and is stored in 'major_sports_franchises.csv'
 
 To get GPS coordinates for each urban area in the original dataset, run the 'Get GPS coordinates for each metro.ipynb' notebook. The resulting file will be 'msf_w_coord.csv'
+
+'Add sports features' notebook file:
+Using 'msf_w_coord.csv' and '../reference_w_loc.csv' we compute the closest urban area to each UFO sighting. An urban area is one that has at least 1 major sports team. The following features are added: 
+1) closest metro name
+2) closest metro distance
+3) closest metro population
+4) closest metro major 4 sports teams' count (closest_metro_m4)
+5) closest metro major 6 sports teams' count (closest_metro_m6)
+
+When computing similarity scores between rows, closest metro name should be omitted - it was left in for manual inspection purposes.
