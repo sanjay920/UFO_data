@@ -19,32 +19,6 @@ print ufo_sighting.shape
 
 with open('../utility_data/us_states_isocode.txt') as file:
 	state_codes = json.load(file)
-# bounding_box = {}
-
-# with open('Additional_Data/bounding_box.txt') as f:
-# 	bounding_box = json.load(f)
-
-
-# print "Shape of metorite_data is ",metorite_data.shape
-# state = []
-
-# for index, row in metorite_data.iterrows():
-# 	lat = row['reclat']
-# 	lon = row['reclong']
-
-# 	state_name = ""
-# 	for key in bounding_box:
-# 		bbox = bounding_box[key]
-# 		if len(bbox) > 0 and (lat >= bbox[0] and lat<= bbox[1]) and (lon >= bbox[2] and lon<= bbox[3]):
-# 			# print lat, lon, key
-# 			state_name = key
-# 			break
-# 	state.append(state_name)
-
-# metorite_data['state'] = state
-
-# metorite_data.to_csv('Additional_Data/us_metorite_landings_with_states.csv')
-
 
 # Code to add new features
 
@@ -72,11 +46,11 @@ for index, row in ufo_sighting.iterrows():
 		sighted_at_year = datetime.strptime(str(row['sighted_at']), "%Y%m%d")
 	except:
 		# Keeping record of the error type
-		distance_to_meteor.append("Not Available")
-		meteor_name.append("Not Available")
+		distance_to_meteor.append("NA")
+		meteor_name.append("NA")
 		reason.append("Invalid time format")
-		metorite_lat.append("Not Availble")
-		metorite_long.append("Not Available")
+		metorite_lat.append("NA")
+		metorite_long.append("NA")
 		continue
 	sighted_at_year = datetime.strptime(str(row['sighted_at']), "%Y%m%d")
 	state_name = row['state']
@@ -88,7 +62,7 @@ for index, row in ufo_sighting.iterrows():
 
 		min_dist = float('inf')
 		metorite_states = list(set(df_meteor_by_year['state']))
-		met_name = "Not Available"
+		met_name = "NA"
 		# print "For year ",sighted_at_year,"States are - ",metorite_states
 		if state_name in state_codes and state_codes[state_name] in metorite_states:
 			df_meteor_by_state = df_meteor_by_year.loc[df_meteor_by_year['state'] == state_codes[state_name]]
@@ -100,10 +74,10 @@ for index, row in ufo_sighting.iterrows():
 					met_name = meteor_row['name']
 			meteor_name.append(met_name)
 			if math.isinf(distance):
-				distance_to_meteor.append("Not Available")
+				distance_to_meteor.append("NA")
 				reason.append("No Meteorites in state for the year")
-				metorite_lat.append("Not Availble")
-				metorite_long.append("Not Available")
+				metorite_lat.append("NA")
+				metorite_long.append("NA")
 			else:# Mark entries as success, if and entry can be found in the same state and around the same time.
 				distance_to_meteor.append(min_dist)
 				reason.append("Success")
@@ -111,27 +85,27 @@ for index, row in ufo_sighting.iterrows():
 				metorite_long.append(meteor_row['reclong'])
 
 		else:#if the metorite state is not present in the ufo data set
-			distance_to_meteor.append("Not Available")
-			meteor_name.append("Not Available")
+			distance_to_meteor.append("NA")
+			meteor_name.append("NA")
 			reason.append("No Meteorites in state for the year")
-			metorite_lat.append("Not Availble")
-			metorite_long.append("Not Available")
+			metorite_lat.append("NA")
+			metorite_long.append("NA")
 	else:#if sighted at year is not present in the metorite data set
-		distance_to_meteor.append("Not Available")
-		meteor_name.append("Not Available")
+		distance_to_meteor.append("NA")
+		meteor_name.append("NA")
 		reason.append("Year is not present")
-		metorite_lat.append("Not Availble")
-		metorite_long.append("Not Available")
+		metorite_lat.append("NA")
+		metorite_long.append("NA")
 
-# print len(meteor_name)
-# print len(distance_to_meteor)
-# print len(reason)
-# print len(metorite_lat)
-# print len(metorite_long)
+print len(meteor_name)
+print len(distance_to_meteor)
+print len(reason)
+print len(metorite_lat)
+print len(metorite_long)
 
 ufo_sighting['meteor_name'] = meteor_name
 ufo_sighting['distance_to_meteor'] = distance_to_meteor
 ufo_sighting['reason'] = reason
 ufo_sighting['metorite_lat'] = metorite_lat
 ufo_sighting['metorite_long'] = metorite_long
-ufo_sighting.to_csv('reference_w_meteorite.csv')
+ufo_sighting.to_csv('reference_w_meteorite.csv', index=False)
