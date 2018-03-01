@@ -47,6 +47,7 @@ OUTPUT_CSV_FILE = "cosine_sim_airport.csv"
 
 # ######################## Sampling the input data and normalizing the columns. To be improved and investigated further
 data = pd.read_csv(INPUT_DATA_FILE, encoding='ISO-8859-1')
+
 data = data.sample(15)
 data_dictionary = defaultdict()
 
@@ -67,6 +68,8 @@ data['closest_SMALL_airport_distance'] = [round(x,2) for x in data['closest_SMAL
 data['closest_MEDIUM_airport_distance'] = [round(x,2) for x in data['closest_MEDIUM_airport_distance']]
 data['closest_LARGE_airport_distance'] = [round(x,2) for x in data['closest_LARGE_airport_distance']]
 # ########################################################################################################
+
+# print data['closest_SMALL_airport_distance']
 
 
 # Create a dictionary of items - Key: Location of the ufo sighting, value- feature
@@ -91,7 +94,7 @@ with open(OUTPUT_CSV_FILE, "wb") as outF:
             row_cosine_distance = [sighting_1, sighting_2]
             v1 = Vector(sighting_1, data_dictionary[sighting_1])
             v2 = Vector(sighting_2, data_dictionary[sighting_2])
-            row_cosine_distance.append(v1.cosTheta(v2))
+            row_cosine_distance.append(round(v1.cosTheta(v2),2))
             a.writerow(row_cosine_distance)
         except:
             continue
