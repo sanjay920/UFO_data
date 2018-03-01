@@ -1,0 +1,7 @@
+For airports: ['id','closest_LARGE_airport_distance', 'closest_MEDIUM_airport_distance','closest_SMALL_airport_distance']
+
+For sports: ['id', 'closest_metro_distance', 'closest_metro_pop', 'closest_metro_m4', 'closest_metro_m6']
+
+For population: ['id','Population']
+
+For meteorite: 
