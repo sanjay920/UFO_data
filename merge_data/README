@@ -4,4 +4,9 @@ For sports: ['id', 'closest_metro_distance', 'closest_metro_pop', 'closest_metro
 
 For population: ['id','Population']
 
-For meteorite: 
+For meteorite: ['id', 'meteor_sighting']
+
+The notebook file produces:
+1) ufo_dataset_final.csv
+2) ufo_dataset_final_with_lat_lon.csv
+3) normalized_dataset_final_with_lat_lon.csv
