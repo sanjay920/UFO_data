@@ -1,0 +1,18 @@
+Dataset Origin : https://www.kaggle.com/nasa/meteorite-landings
+
+This dataset has sightings across the world. In order to limit it to the ones scene in US.
+
+A) Run "" for to find only US related meteorite landings.
+
+1) From the geo locations of meteorite sightings, find the ones which are within the bounding box for US states.
+2) Save this as "us_metorite_landings_with_states.csv"
+
+B) Run "merge_meteorite.py" for merging meteorite sightings with ufo sightings.
+
+Here's a brief overview of the process.
+
+Assumptions : As we just have the year and nothing more. Merging the ufo data and metorite data only on the year.
+ 1 - For each entry in the ufo data set, get the state and the sighted at year.
+ 2 - Filter the metorite data set by year first and then by state. There by limitiing the number of comparisions
+ 4 - Compute the distance from the metorite landing and record the observations
+ 5 - Append all the findings to the data frame and save it as a dataframe
