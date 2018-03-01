@@ -30,59 +30,120 @@ d3.json('usa.json', function(error, usa){
 
     svg.append("path")
 	    .datum(subunits)
-			.attr("fill", "#D3D3D3")
+		.attr("fill", "#D3D3D3")
 	    .attr("d", path);
 			// put df_nearest csv here
-			d3.csv('df_nearest_airports.csv', function(err, data){
+			d3.csv('meteor_success.csv', function(err, data){
 				l = [[-73.9866136,40.7306458], [-118.24368,34.05224] ,["none", "none"], [-77.211630,38.700660]];
 				ufo_coords = []
+				meteor_coords = []
 				aa = [-118.24368, 34.05224];
 				bb = [-118.24368, 34.05224];
+
+				var color_hash = {  
+					0 : ["UFO Sighting", "green"],
+					1 : ["Meteorite Sighting", "red"]
+					// 2 : ["Major Sport Sighting", "yellow"]
+				}
+
+				dataset = []
 
 
 				for (var i = 0; i< data.length; i++){
 					try {
 						ufo_coords.push([data[i]["geocoded_longitude"], data[i]["geocoded_latitude"]])
+						meteor_coords.push([data[i]['metorite_long'], data[i]['metorite_lat']])
 					} catch (e) {
 
 					} finally {
 
 					}
 				}
-				// put meteorite landings csv here
-				d3.csv('meteorite-landings.csv', function(err, data1){
 
-					meteor_coords = []
+				console.log("ufo_coord",ufo_coords);
+				console.log("metorite_coord", meteor_coords)
 
-					for(var j=0; j<data1.length; j++){
-						meteor_coords.push([data1[j]['reclong'], data1[j]['reclat']])
+				d3.csv('msf_w_coord.csv', function(err, data2){
+
+					sports_coords = []
+
+					for (var i = 0; i< data2.length; i++){
+					try {
+						sports_coords.push([data2[i]['ua_lon'], data2[i]['ua_lat']])
+					} catch (e) {
+
+					} finally {
+
 					}
+				}
+
+					dataset[0] = ufo_coords
+					dataset[1] = meteor_coords
+					// dataset[2] = sports_coords
+
+					console.log(dataset)
+
+				// svg.selectAll("rect")
+				// 	.data(sports_coords).enter()
+				// 	.append("rect")
+				// 	.attr("x", function(d){ return projection(d)[0]; })
+				// 	.attr("y", function(d){ return projection(d)[1]; })
+				// 	.attr("width", "10px")
+				// 	.attr("height", "10px")
+				// 	.attr("fill", "red")
 
 
-					console.log(ufo_coords)
-					console.log(meteor_coords);
-
-					svg.selectAll("circle")
-						.data(meteor_coords).enter()
-						.append("circle")
-						.attr("cx", function(d){ return projection(d)[0]; })
-						.attr("cy", function(d){ return projection(d)[1]; })
-						.attr("r", "3px")
-						.attr("fill", "red")
+				svg.selectAll("rect")
+					.data(dataset[1]).enter()
+					.append("rect")
+					.attr("x", function(d){ return projection(d)[0]; })
+					.attr("y", function(d){ return projection(d)[1]; })
+					.attr("width", "10px")
+					.attr("height", "10px")
+					.attr("fill", "red")
 
 
-						svg.selectAll("circle")
-							.data(ufo_coords).enter()
-							.append("circle")
-							.attr("cx", function(d){ return projection(d)[0]; })
-							.attr("cy", function(d){ return projection(d)[1]; })
-							.attr("r", "2px")
-							.attr("fill", "green")
+				svg.selectAll("circle")
+					.data(dataset[0]).enter()
+					.append("circle")
+					.attr("cx", function(d){ return projection(d)[0]; })
+					.attr("cy", function(d){ return projection(d)[1]; })
+					.attr("r", "3px")
+					.attr("fill", "green")
+					.style("opacity", 0.5)
 
+
+					var legend = svg.append("g")
+							  	.attr("class", "legend")
+							  	.attr("height", 100)
+							  	.attr("width", 100)
+						    	.attr('transform', 'translate(-100,400)');
+
+					legend.selectAll('rect')
+						.data(dataset)
+						.enter()
+						.append('rect')
+						.attr("x", width - 65)
+				        .attr("y", function(d, i){ return i *  20;})
+				        .attr("width", 10)
+	  					.attr("height", 10)
+	  					.style("fill", function(d) { 
+					        var color = color_hash[dataset.indexOf(d)][1];
+					        return color;
+					      });
+
+	  				legend.selectAll('text')
+				      .data(dataset)
+				      .enter()
+				      .append("text")
+					  .attr("x", width - 52)
+				      .attr("y", function(d, i){ return i *  20 + 9;})
+					  .text(function(d) {
+				        var text = color_hash[dataset.indexOf(d)][0];
+				        return text;
+				      });
 
 				});
-
-
 
 				});
 
