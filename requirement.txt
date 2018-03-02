@@ -4,3 +4,4 @@ numpy
 editdistance
 geopy
 tabula
+scipy
