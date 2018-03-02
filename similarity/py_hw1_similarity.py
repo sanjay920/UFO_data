@@ -57,8 +57,8 @@ class Vector:
 
 
 # Input / Output Files go here
-CATEGORIZED_DATA_FILE = "featurized_data_set.csv"
-NORMALIZED_INPUT_DATA_FILE = "merge_data/normalized_dataset_final_with_lat_lon.csv"
+CATEGORIZED_DATA_FILE = "../featurized_data_set.csv"
+NORMALIZED_INPUT_DATA_FILE = "../merge_data/normalized_dataset_final_with_lat_lon.csv"
 
 
 EDIT_DIST_CSV_FILE = "edit_distance_similarity.csv"

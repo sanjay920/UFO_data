@@ -14,8 +14,8 @@ NA = "NA"
 BLANK = ""
 
 # Input file goes here
-DATA_SET_PATH = 'ufo_dataset_final.csv'
-OUTPUT_DATA_FRAME_NAME = 'featurized_data_set.csv'
+DATA_SET_PATH = '../ufo_dataset_final.csv'
+OUTPUT_DATA_FRAME_NAME = '../featurized_data_set.csv'
 
 # TODO: Need to add encoding when reading the data frame
 data = pd.read_csv(DATA_SET_PATH)
