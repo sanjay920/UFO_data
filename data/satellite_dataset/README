@@ -1,0 +1,21 @@
+Dataset Origin : https://s3.amazonaws.com/ucs-documents/nuclear-weapons/sat-database/9-1-17-update/UCS_Satellite_Database_9-1-2017.xlsx
+
+MIME-Type: application/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+
+This dataset has sightings across the world. In order to limit it to the ones scene in US.
+
+A) Run "" for to find only US related Satellite launches.
+
+1) From the geo locations of satellite launch sites, find the ones which are within the bounding box for US states.
+2) Save this as "USC_Satellite_Dataset.csv"
+
+B) Run "merge_satellite.py" for merging meteorite sightings with ufo sightings.
+
+Here's a brief overview of the process.
+
+Assumptions : As we can just merge on year and day, merge the ufo data and satellite data only on year and day.
+ 1 - For each entry in the ufo data set, get the state day and year.
+ 2 - Filter the metorite data set by year first and then by state. There by limitiing the number of comparisions
+ 3 - Filter the metorite data set by day first and then by state. There by limitiing the number of comparisions
+ 4 - Compute the distance from the satellite launch site and record the observations
+ 5 - Append all the findings to the data frame and save it as a dataframe
