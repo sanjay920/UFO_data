@@ -1,5 +1,7 @@
 Dataset Origin : https://www.kaggle.com/nasa/meteorite-landings
 
+MIME-Type: text/csv
+
 This dataset has sightings across the world. In order to limit it to the ones scene in US.
 
 A) Run "" for to find only US related meteorite landings.
