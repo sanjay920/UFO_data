@@ -57,7 +57,8 @@ class Vector:
 
 
 # Input / Output Files go here
-INPUT_DATA_FILE = "merge_data/normalized_dataset_final.csv"
+REF_DATA_FILE = "merge_data/ufo_dataset_final_with_lat_lon.csv"
+INPUT_DATA_FILE = "merge_data/normalized_dataset_final_with_lat_lon.csv"
 EDIT_DIST_CSV_FILE = "edit_distance_similarity.csv"
 COSINE_SIMILARITY_CSV_FILE = "cosine_similarity.csv"
 JACCARD_SIMILARITY_CSV_FILE="jaccard_similarity.csv"
@@ -66,11 +67,12 @@ JACCARD_SIMILARITY_CSV_FILE="jaccard_similarity.csv"
 
 # ######################## Sampling the input data and normalizing the columns. To be improved and investigated further
 data = pd.read_csv(INPUT_DATA_FILE)
-
+ref_data = pd.read_csv(REF_DATA_FILE)
 # data = data.loc[data['state'] == 'California']
 
-# data = data.sample(50)
+data = data.sample(50)
 data_dictionary = defaultdict()
+index_to_state = defaultdict()
 
 # ########################################################################################################
 
@@ -94,6 +96,10 @@ for index,row in data.iterrows():
     # feature['population'] = row['population']
     # location = row['location'].split(',')[0]
     data_dictionary[row['id']] = feature
+    ref_row = ref_data[ref_data['id'] == row['id']]
+    # print ref_row.iloc[0]['state']
+    # break
+    index_to_state[row['id']] = str(row['id']) + "S" + ref_row.iloc[0]['state']
 
 tuples = itertools.combinations(data_dictionary.keys(),2)
 
@@ -104,7 +110,7 @@ def compute_cosine_similarity(tuples):
         a.writerow(["x-coordinate","y-coordinate","Similarity_score"])
         for sighting_1, sighting_2 in tuples:
             try:
-                raw_cosine_distance = [sighting_1, sighting_2]
+                raw_cosine_distance = [index_to_state[sighting_1], index_to_state[sighting_2]]
                 v1 = Vector(sighting_1, data_dictionary[sighting_1])
                 v2 = Vector(sighting_2, data_dictionary[sighting_2])
                 raw_cosine_distance.append(round(v1.cosTheta(v2),2))
@@ -148,7 +154,6 @@ def jaccard_similarity(tuples):
                 a.writerow(row)
             except:
                 continue
-
 
 
 compute_cosine_similarity(tuples)
