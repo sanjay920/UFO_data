@@ -1,5 +1,9 @@
+
+
 Used this link to retrieve airports: https://datahub.io/core/airport-codes
 This is the same as the airports GitHub provided in assignment description.
+
+MIME-Type: text/csv
 
 There are many different types of airports, but the ones of interest to us are large, medium, and small airports. 
 

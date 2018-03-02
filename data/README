@@ -1,3 +1,11 @@
 reference.csv was produced in the /initial_cleaning folder
 
+<<<<<<< HEAD
 reference_w_loc.csv is reference.csv with location -- it was produced in /geocoded_location
+=======
+This folder contains folders of all the datasets used to form ufo_dataset_final_with_lat_lon.csv [located in merge_data folder]
+
+
+
+ 
+>>>>>>> a673305f9e8325fe9f4399846e8d0b6bd2928027

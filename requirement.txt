@@ -1,0 +1,6 @@
+tika
+pandas
+numpy
+editdistance
+geopy
+tabula
