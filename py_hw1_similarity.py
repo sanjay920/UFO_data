@@ -57,7 +57,7 @@ class Vector:
 
 
 # Input / Output Files go here
-INPUT_DATA_FILE = "featurized_data_set.csv"
+INPUT_DATA_FILE = "merge_data/normalized_dataset_final.csv"
 EDIT_DIST_CSV_FILE = "edit_distance_similarity.csv"
 COSINE_SIMILARITY_CSV_FILE = "cosine_similarity.csv"
 JACCARD_SIMILARITY_CSV_FILE="jaccard_similarity.csv"
@@ -67,9 +67,9 @@ JACCARD_SIMILARITY_CSV_FILE="jaccard_similarity.csv"
 # ######################## Sampling the input data and normalizing the columns. To be improved and investigated further
 data = pd.read_csv(INPUT_DATA_FILE)
 
-data = data.loc[data['state'] == 'California']
+# data = data.loc[data['state'] == 'California']
 
-data = data.sample(10)
+# data = data.sample(50)
 data_dictionary = defaultdict()
 
 # ########################################################################################################
@@ -77,18 +77,22 @@ data_dictionary = defaultdict()
 # print data['closest_SMALL_airport_distance']
 
 # Create a dictionary of items - Key: Location of the ufo sighting, value- feature
+columns = list(data)
 for index,row in data.iterrows():
     # print row
     feature = defaultdict()
-    feature['medium_airport'] = row['medium_airport_category']
-    feature['small_airport'] = row['small_airport_category']
-    feature['large_airport'] = row['large_airport_category']
-    feature['meteorite'] = row['meteor_sighting']
-    feature['metro_distance'] = row['metro_distance_category']
-    feature['closest_metro_m4'] = row['closest_metro_m4']
-    feature['closest_metro_m6'] = row['closest_metro_m6']
+    # feature['medium_airport'] = row['medium_airport_category']
+    # feature['small_airport'] = row['small_airport_category']
+    # feature['large_airport'] = row['large_airport_category']
+    # feature['meteorite'] = row['meteor_sighting']
+    # feature['metro_distance'] = row['metro_distance_category']
+    # feature['closest_metro_m4'] = row['closest_metro_m4']
+    # feature['closest_metro_m6'] = row['closest_metro_m6']
+    for feat_name in columns:
+        if feat_name != "id":
+            feature[feat_name] = row[feat_name]
     # feature['population'] = row['population']
-    location = row['location'].split(',')[0]
+    # location = row['location'].split(',')[0]
     data_dictionary[row['id']] = feature
 
 tuples = itertools.combinations(data_dictionary.keys(),2)
@@ -147,6 +151,4 @@ def jaccard_similarity(tuples):
 
 
 
-jaccard_similarity(tuples)
-
-
+compute_cosine_similarity(tuples)
