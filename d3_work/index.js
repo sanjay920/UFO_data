@@ -36,116 +36,131 @@ d3.json('usa.json', function(error, usa){
 			d3.csv('ufo_dataset_final_with_lat_lon.csv', function(err, data){
 
 
-				// Adding a filter function to filter the data based on parameters
-				var filterFunction = function(filter_key, filter_value){
-					var filterData = data.filter(function(d){
-						if(d[filter_key] == filter_value){
-							return d;
+				d3.csv('us_airports.csv', function(err, data2){
+					// Adding a filter function to filter the data based on parameters
+					var filterFunction = function(filter_key, filter_value){
+						var filterData = data.filter(function(d){
+							if(d[filter_key] == filter_value){
+								return d;
+							}
+						});
+
+						return filterData;
+					}
+
+
+
+
+
+					l = [[-73.9866136,40.7306458], [-118.24368,34.05224] ,["none", "none"], [-77.211630,38.700660]];
+					ufo_coords = []
+					meteor_coords = []
+					major_metro_coords = []
+					airport_coords = []
+					aa = [-118.24368, 34.05224];
+					bb = [-118.24368, 34.05224];
+
+					var color_hash = {  
+						0 : ["UFO Sighting", "green"],
+						1 : ["Airport Location", "yellow"]
+						// 2 : ["Major Sport Sighting", "yellow"]
+					}
+
+					id_added = []
+					// filteredData = filterFunction('meteor_sighting', 1);
+					filteredData = data
+					console.log(filteredData)
+					dataset = []
+
+
+					for (var i = 0; i< filteredData.length; i++){
+						try {
+							var rowID = filteredData[i]['id']
+							if (id_added.indexOf(rowID) == -1){
+								ufo_coords.push([filteredData[i]["geocoded_longitude"], filteredData[i]["geocoded_latitude"]])
+								meteor_coords.push([filteredData[i]['meteorite_lon'], filteredData[i]['meteorite_lat']])
+								major_metro_coords.push([filteredData[i]['sports_metro_lon'], filteredData[i]['sports_metro_lat']])
+								airport_coords.push([filteredData[i]['airport_lon'], filteredData[i]['airport_lat']])
+								id_added.push(rowID)
+							}
+						} catch (e) {
+
+						} finally {
+
 						}
-					});
-
-					return filterData;
-				}
-
-				var filterData = data.filter(function(d){
-					if(d['meteor_sighting'] == 1){
-						return d;
 					}
-				});
 
+					console.log(data2)
 
-				l = [[-73.9866136,40.7306458], [-118.24368,34.05224] ,["none", "none"], [-77.211630,38.700660]];
-				ufo_coords = []
-				meteor_coords = []
-				major_metro_coords = []
-				airport_coords = []
-				aa = [-118.24368, 34.05224];
-				bb = [-118.24368, 34.05224];
-
-				var color_hash = {  
-					0 : ["UFO Sighting", "green"],
-					1 : ["Meteorite Sighting", "red"]
-					// 2 : ["Major Sport Sighting", "yellow"]
-				}
-
-				// filteredData = filterFunction('meteor_sighting', 1);
-				filteredData = data
-				console.log(filteredData)
-				dataset = []
-
-
-				for (var i = 0; i< filteredData.length; i++){
-					try {
-						ufo_coords.push([filteredData[i]["geocoded_longitude"], filteredData[i]["geocoded_latitude"]])
-						meteor_coords.push([filteredData[i]['meteorite_lon'], filteredData[i]['meteorite_lat']])
-						major_metro_coords.push([filteredData[i]['sports_metro_lon'], filteredData[i]['sports_metro_lat']])
-						airport_coords.push([filteredData[i]['airport_lon'], filteredData[i]['airport_lat']])
-					} catch (e) {
-
-					} finally {
-
+					for(var j=0; j<data2.length; j++){
+						// console.log(data2[j]['coordinates'].replace(/\s/g,'').split(','))
+						coords = data2[j]['coordinates'].replace(/\s/g,'').split(',')
+						// console.log(coords[0])
+						// break;
+						airport_coords.push([coords[0], coords[1]])
 					}
-				}
 
-				// console.log("ufo_coord",ufo_coords);
-				// console.log("metorite_coord", meteor_coords)
+					console.log(id_added.length)
 
-
-				dataset[0] = ufo_coords
-				dataset[1] = airport_coords
-				// dataset[2] = sports_coords
+					dataset[0] = ufo_coords
+					dataset[1] = airport_coords
+					// dataset[2] = sports_coords
 
 
 
-				svg.selectAll("rect")
-					.data(dataset[1]).enter()
-					.append("rect")
-					.attr("x", function(d){ return projection(d)[0]; })
-					.attr("y", function(d){ return projection(d)[1]; })
-					.attr("width", "7px")
-					.attr("height", "7px")
-					.attr("fill", "red")
+					svg.selectAll("rect")
+						.data(dataset[1]).enter()
+						.append("rect")
+						.attr("x", function(d){ return projection(d)[0]; })
+						.attr("y", function(d){ return projection(d)[1]; })
+						.attr("width", "7px")
+						.attr("height", "7px")
+						.attr("fill", "yellow")
 
 
-				svg.selectAll("circle")
-					.data(dataset[0]).enter()
-					.append("circle")
-					.attr("cx", function(d){ return projection(d)[0]; })
-					.attr("cy", function(d){ return projection(d)[1]; })
-					.attr("r", "3px")
-					.attr("fill", "green")
-					.style("opacity", 0.5)
+					svg.selectAll("circle")
+						.data(dataset[0]).enter()
+						.append("circle")
+						.attr("cx", function(d){ return projection(d)[0]; })
+						.attr("cy", function(d){ return projection(d)[1]; })
+						.attr("r", "2px")
+						.attr("fill", "green")
+						.style("opacity", 1)
 
 
-				var legend = svg.append("g")
-						  	.attr("class", "legend")
-						  	.attr("height", 100)
-						  	.attr("width", 100)
-					    	.attr('transform', 'translate(-100,400)');
+					var legend = svg.append("g")
+							  	.attr("class", "legend")
+							  	.attr("height", 100)
+							  	.attr("width", 100)
+						    	.attr('transform', 'translate(-100,400)');
 
-				legend.selectAll('rect')
-					.data(dataset)
-					.enter()
-					.append('rect')
-					.attr("x", width - 65)
-			        .attr("y", function(d, i){ return i *  20;})
-			        .attr("width", 10)
-  					.attr("height", 10)
-  					.style("fill", function(d) { 
-				        var color = color_hash[dataset.indexOf(d)][1];
-				        return color;
+					legend.selectAll('rect')
+						.data(dataset)
+						.enter()
+						.append('rect')
+						.attr("x", width - 65)
+				        .attr("y", function(d, i){ return i *  20;})
+				        .attr("width", 10)
+	  					.attr("height", 10)
+	  					.style("fill", function(d) { 
+					        var color = color_hash[dataset.indexOf(d)][1];
+					        return color;
+					      });
+
+	  				legend.selectAll('text')
+				      .data(dataset)
+				      .enter()
+				      .append("text")
+					  .attr("x", width - 52)
+				      .attr("y", function(d, i){ return i *  20 + 9;})
+					  .text(function(d) {
+				        var text = color_hash[dataset.indexOf(d)][0];
+				        return text;
 				      });
+				})
 
-  				legend.selectAll('text')
-			      .data(dataset)
-			      .enter()
-			      .append("text")
-				  .attr("x", width - 52)
-			      .attr("y", function(d, i){ return i *  20 + 9;})
-				  .text(function(d) {
-			        var text = color_hash[dataset.indexOf(d)][0];
-			        return text;
-			      });
+
+
 
 				});
 
