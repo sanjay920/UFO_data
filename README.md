@@ -8,14 +8,18 @@ Sub Folders:
 5. merge_data- contains final dataset
 
 Order of execution:
-1) Follow /data/initial_cleaning to get reference.csv
+1) Install the requirements by running requirements.txt
 
-2) Follow /data/geocoded_location to get reference_w_loc.csv
+2) Follow /data/initial_cleaning to get reference.csv
 
-3) Use /data/shapes_cleaning to attempt to extract shape from description for UFO sightings that did not report a shape -- this uses and overwrites reference_w_loc.csv
+3) Follow /data/geocoded_location to get reference_w_loc.csv
 
-4) Follow /data/airport_dataset to produce reference_w_airports.csv
+4) Use /data/shapes_cleaning to attempt to extract shape from description for UFO sightings that did not report a shape -- this uses and overwrites reference_w_loc.csv
 
-5) Follow /data/sports_dataset to produce reference_w_sports.csv
+5) Follow /data/airport_dataset to produce reference_w_airports.csv
 
-6) Follow /data/meteorite_dataset to produce reference_w_meteorite.csv
+6) Follow /data/sports_dataset to produce reference_w_sports.csv
+
+7) Follow /data/meteorite_dataset to produce reference_w_meteorite.csv
+
+You can request access to this repository.
