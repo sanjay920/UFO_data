@@ -8,7 +8,7 @@ Sub Folders:
 5. merge_data- contains final dataset
 
 Order of execution:
-1) Install the requirements by running requirements.txt
+1) Install the requirements by running: pip install -r requirement.txt
 
 2) Follow /data/initial_cleaning to get reference.csv
 
