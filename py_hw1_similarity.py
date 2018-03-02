@@ -57,76 +57,85 @@ class Vector:
 
 
 # Input / Output Files go here
-REF_DATA_FILE = "merge_data/ufo_dataset_final_with_lat_lon.csv"
-INPUT_DATA_FILE = "merge_data/normalized_dataset_final_with_lat_lon.csv"
+CATEGORIZED_DATA_FILE = "featurized_data_set.csv"
+NORMALIZED_INPUT_DATA_FILE = "merge_data/normalized_dataset_final_with_lat_lon.csv"
+
+
 EDIT_DIST_CSV_FILE = "edit_distance_similarity.csv"
 COSINE_SIMILARITY_CSV_FILE = "cosine_similarity.csv"
 JACCARD_SIMILARITY_CSV_FILE="jaccard_similarity.csv"
 
 
+CATEGORIZED_FEATURES = ['medium_airport_category', 'small_airport_category', 'large_airport_category', 'meteor_sighting','metro_distance_category', 'closest_metro_m4', 'closest_metro_m6', 'population_category']
+
 
 # ######################## Sampling the input data and normalizing the columns. To be improved and investigated further
-data = pd.read_csv(INPUT_DATA_FILE)
-ref_data = pd.read_csv(REF_DATA_FILE)
-# data = data.loc[data['state'] == 'California']
+normalized_data = pd.read_csv(NORMALIZED_INPUT_DATA_FILE)
+categorized_data = pd.read_csv(CATEGORIZED_DATA_FILE)
 
-data = data.sample(50)
-data_dictionary = defaultdict()
+
+# Sampling data
+normalized_data = normalized_data.sample(10)
+categorized_data = categorized_data.sample(10)
+
+normalized_data_dictionary = defaultdict()
+categorized_feat_dictionary = defaultdict()
 index_to_state = defaultdict()
 
 # ########################################################################################################
 
 # print data['closest_SMALL_airport_distance']
+# Creating categorized feature dictionary
+for index, row in categorized_data.iterrows():
+    cat_feature = defaultdict()
+    for feat_name in CATEGORIZED_FEATURES:
+        cat_feature[feat_name] = row[feat_name]
+
+    categorized_feat_dictionary[row['id']] = cat_feature
+
 
 # Create a dictionary of items - Key: Location of the ufo sighting, value- feature
-columns = list(data)
-for index,row in data.iterrows():
-    # print row
+# Creating a normalized feature dictionary
+columns = list(normalized_data)
+for index,row in normalized_data.iterrows():
     feature = defaultdict()
-    # feature['medium_airport'] = row['medium_airport_category']
-    # feature['small_airport'] = row['small_airport_category']
-    # feature['large_airport'] = row['large_airport_category']
-    # feature['meteorite'] = row['meteor_sighting']
-    # feature['metro_distance'] = row['metro_distance_category']
-    # feature['closest_metro_m4'] = row['closest_metro_m4']
-    # feature['closest_metro_m6'] = row['closest_metro_m6']
     for feat_name in columns:
         if feat_name != "id":
             feature[feat_name] = row[feat_name]
-    # feature['population'] = row['population']
-    # location = row['location'].split(',')[0]
-    data_dictionary[row['id']] = feature
-    ref_row = ref_data[ref_data['id'] == row['id']]
+    normalized_data_dictionary[row['id']] = feature
+    # ref_row = ref_data[ref_data['id'] == row['id']]
     # print ref_row.iloc[0]['state']
     # break
-    index_to_state[row['id']] = str(row['id']) + "S" + ref_row.iloc[0]['state']
+    # index_to_state[row['id']] = str(row['id']) + "S" + ref_row.iloc[0]['state']
 
-tuples = itertools.combinations(data_dictionary.keys(),2)
+# tuples = itertools.combinations(data_dictionary.keys(),2)
 
 
-def compute_cosine_similarity(tuples):
+def compute_cosine_similarity(dictionary):
+    tuples = itertools.combinations(dictionary.keys(),2)
     with open(COSINE_SIMILARITY_CSV_FILE, "wb") as outF:
         a = csv.writer(outF, delimiter=',')
         a.writerow(["x-coordinate","y-coordinate","Similarity_score"])
         for sighting_1, sighting_2 in tuples:
             try:
-                raw_cosine_distance = [index_to_state[sighting_1], index_to_state[sighting_2]]
-                v1 = Vector(sighting_1, data_dictionary[sighting_1])
-                v2 = Vector(sighting_2, data_dictionary[sighting_2])
+                raw_cosine_distance = [sighting_1, sighting_2]
+                v1 = Vector(sighting_1, dictionary[sighting_1])
+                v2 = Vector(sighting_2, dictionary[sighting_2])
                 raw_cosine_distance.append(round(v1.cosTheta(v2),2))
                 a.writerow(raw_cosine_distance)
             except:
                 continue
 
-def compute_edit_distance(tuples):
+def compute_edit_distance(dictionary):
+    tuples = itertools.combinations(dictionary.keys(),2)
     with open(EDIT_DIST_CSV_FILE, "wb") as outF:
         a = csv.writer(outF, delimiter=',')
         a.writerow(["x-coordinate","y-coordinate","Similarity_score"])
         for sighting_1, sighting_2 in tuples:
             try:
                 raw_edit_distance = [sighting_1, sighting_2]
-                v1 = Vector(sighting_1, data_dictionary[sighting_1])
-                v2 = Vector(sighting_2, data_dictionary[sighting_2])
+                v1 = Vector(sighting_1, dictionary[sighting_1])
+                v2 = Vector(sighting_2, dictionary[sighting_2])
                 raw_edit_distance.append(round(v1.editDistance(v2),2))
                 a.writerow(raw_edit_distance)
             except:
@@ -142,18 +151,24 @@ def jaccard(v1,v2):
 
 
 
-def jaccard_similarity(tuples):
+def jaccard_similarity(dictionary):
+    tuples = itertools.combinations(dictionary.keys(),2)
     with open(JACCARD_SIMILARITY_CSV_FILE,"wb") as outF:
         a = csv.writer(outF, delimiter=',')
         a.writerow(["x-coordinate","y-coordinate","Similarity_score"])
         # row = []
         for sighting_1, sighting_2 in tuples:
             try:
-                result = jaccard(data_dictionary[sighting_1], data_dictionary[sighting_2])
+                result = jaccard(dictionary[sighting_1], dictionary[sighting_2])
                 row = (sighting_1, sighting_2, result)
                 a.writerow(row)
             except:
                 continue
 
 
-compute_cosine_similarity(tuples)
+
+# Pass normalized dictionary to compute cosine similarity
+compute_cosine_similarity(normalized_data_dictionary)
+# Pass categorized dictionary to compute edit-distance and jaccard similarity
+compute_edit_distance(categorized_feat_dictionary)
+jaccard_similarity(categorized_feat_dictionary)

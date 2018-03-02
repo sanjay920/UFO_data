@@ -1,3 +1,34 @@
-TODO: Add script to generate pop_final.csv
 
-Assumption made: if there is no sighted_at date then we use reported_at date
+There are 2 approaches to handle PDF MIME TYPE. 
+
+1. The dataset origin is https://en.wikipedia.org/wiki/List_of_U.S._states_by_historical_population and is stored in "states_population.pdf"
+
+Steps:
+
+To extract the data set from the "states_population.pdf" run the "states_pop_final.py" python script which will in turn result in the "output_1870_1950.csv" file which has all the population of the USA states by year from 1870 till 2010.
+
+To properly organize the csv in a different format which makes the merging with our original dataset easier, the "output_1870_1950.csv" file is used as an input file to "pop_dataset_final.ipynb" python jupyter notebook resulting in "pop_final.csv".  
+
+Further using "Add population feature.ipynb" python jupyter notebook to finally merge our population dataset with the rest of the dataset. This file is named as "reference_w_population.csv".
+
+
+
+2. Another approach for this was tried as well. The dataset origin for this was: "https://web.archive.org/web/20141121134738/http://www.census.gov/population/www/documentation/twps0056/tabs15-65.pdf" 
+
+We tried extracting tables from "pdf123.pdf" using 2 different approaches
+namely as: PyPDF2 and tabula. "pdf_population_pypdf2.py" and "pdf_population_tabula.py" were the two scripts written. 
+
+This is stored in a folder named as "different versions" 
+
+As the dataset was incomplete, this method was dropped off.
+
+
+
+
+New feature contributed by this dataset to the main dataset: 
+	a. Population
+	b. Year of the population census 
+
+
+
+

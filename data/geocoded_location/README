@@ -1,7 +1,11 @@
 Use extract_geo_location.py to create geocoded_location_dict.txt
+1) From the original dataset we extract the geocoded location for each ufo entry.
+2) Features extracted from the sighting - latitude, longitude, city, state, country.
+3) A dictionary(To avoid making repeated requests to GeoPy) is created with the location entry from the dataset as the key.
+4) On completion, we write the dictionary to a text file "geocoded_location_dict.txt" for future reference
 
 Add geocoded location features notebook file:
 This notebook uses geocoded_location_dict.txt to add geocoded latitude, longitude, city, state, and country as features to the reference dataset. Attempt to fix any UFO sightings that geopy could not resolve -- use uszipcode package as a second option to geopy. This allowed us to fix 877 entries.
-This notebook will produce reference_w_loc.csv 
+This notebook will produce reference_w_loc.csv
 
 Packages required: uszipcode
